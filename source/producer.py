@@ -8,17 +8,6 @@ from ndn.encoding import Name, InterestParam, BinaryStr, FormalName, MetaInfo
 import logging
 
 
-cred = credentials.Certificate("medical-record-7557a-firebase-adminsdk-bnaep-ee0229ec92.json")
-firebase_admin.initialize_app(cred, {
-    'databaseURL': "https://medical-record-7557a-default-rtdb.asia-southeast1.firebasedatabase.app"
-})
-
-# Get a reference to the root of the database
-root_ref = db.reference()
-
-# Get a reference to the "records" folder in the database
-records_ref = root_ref.child("records")
-
 logging.basicConfig(format='[{asctime}]{levelname}:{message}',
                     datefmt='%Y-%m-%d %H:%M:%S',
                     level=logging.INFO,
@@ -30,6 +19,17 @@ app = NDNApp()
 def on_interest(name: FormalName, param: InterestParam, ap: Optional[BinaryStr]):
     nama_to_search = str(bytes(ap))
     print(f'>> I: {Name.to_str(name)}, {param}')
+    cred = credentials.Certificate("medical-record-7557a-firebase-adminsdk-bnaep-ee0229ec92.json")
+    firebase_admin.initialize_app(cred, {
+    'databaseURL': "https://medical-record-7557a-default-rtdb.asia-southeast1.firebasedatabase.app"
+    })
+
+    # Get a reference to the root of the database
+    root_ref = db.reference()
+
+    # Get a reference to the "records" folder in the database
+    records_ref = root_ref.child("records")
+
     # Read data from the "records" folder
     data = records_ref.get()
 
