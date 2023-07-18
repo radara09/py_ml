@@ -53,7 +53,7 @@ def on_interest(name: FormalName, param: InterestParam, ap: Optional[BinaryStr])
                   "Nama": record_data.get("nama"),
                   "Umur": record_data.get("umur"),
                   "Sex": record_data.get("sex"),
-                  "Diagnosis": record_data.get("diagnosis"),
+                  "Diagnosis": record_data.get("Diagnosis"),
                   "DBP": record_data.get("DBP"),
                   "SBP": record_data.get("SBP"),
                 })
