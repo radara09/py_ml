@@ -70,7 +70,7 @@ def on_interest(name: FormalName, param: InterestParam, ap: Optional[BinaryStr])
     else:
         print("No data available in the 'records' folder.")
 
-    content = f'record'.encode()
+    content = f.encode()
     app.put_data(name, content=content, freshness_period=10000)
     print(f'<< D: {Name.to_str(name)}')
     print(MetaInfo(freshness_period=10000))
