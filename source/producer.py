@@ -19,7 +19,7 @@ cred = credentials.Certificate("medical-record-7557a-firebase-adminsdk-bnaep-ee0
 firebase_admin.initialize_app(cred, {'databaseURL': "https://medical-record-7557a-default-rtdb.asia-southeast1.firebasedatabase.app"})
 
 
-@app.route('/data/alluser')
+@app.route('/data/getuser')
 def on_interest(name: FormalName, param: InterestParam, ap: Optional[BinaryStr]):
     nama_to_search = str(bytes(ap)).split('b\'')[1].split('\'')[0]
     print(f'>> I: {Name.to_str(name)}, {param}')
@@ -49,10 +49,14 @@ def on_interest(name: FormalName, param: InterestParam, ap: Optional[BinaryStr])
             nama = record_data.get("nama")
             if nama and nama == nama_to_search:
              matching_records.append({
-                  "ID": record_id,
+                #   "ID": record_id,
                   "Nama": record_data.get("nama"),
-                  "Umur": record_data.get("umur")
-              })
+                  "Umur": record_data.get("umur"),
+                  "Sex": record_data.get("sex"),
+                  "Diagnosis": record_data.get("diagnosis"),
+                  "DBP": record_data.get("DBP"),
+                  "SBP": record_data.get("SBP"),
+                })
 
     # Print or process the matching records
         if matching_records:
