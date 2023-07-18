@@ -15,15 +15,15 @@ logging.basicConfig(format='[{asctime}]{levelname}:{message}',
 
 app = NDNApp()
 
+cred = credentials.Certificate("medical-record-7557a-firebase-adminsdk-bnaep-ee0229ec92.json")
+firebase_admin.initialize_app(cred, {'databaseURL': "https://medical-record-7557a-default-rtdb.asia-southeast1.firebasedatabase.app"})
+
+
 @app.route('/data/alluser')
 def on_interest(name: FormalName, param: InterestParam, ap: Optional[BinaryStr]):
-    nama_to_search = str(bytes(ap))
+    nama_to_search = str(bytes(ap)).split('b\'')[1].split('\'')[0]
     print(f'>> I: {Name.to_str(name)}, {param}')
-    cred = credentials.Certificate("medical-record-7557a-firebase-adminsdk-bnaep-ee0229ec92.json")
-    firebase_admin.initialize_app(cred, {
-    'databaseURL': "https://medical-record-7557a-default-rtdb.asia-southeast1.firebasedatabase.app"
-    })
-
+    
     # Get a reference to the root of the database
     root_ref = db.reference()
 
