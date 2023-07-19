@@ -7,6 +7,8 @@ from ndn.app import NDNApp
 from ndn.encoding import Name, InterestParam, BinaryStr, FormalName, MetaInfo
 import logging
 
+cred = credentials.Certificate("medical-record-7557a-firebase-adminsdk-bnaep-ee0229ec92.json")
+firebase_admin.initialize_app(cred, {'databaseURL': "https://medical-record-7557a-default-rtdb.asia-southeast1.firebasedatabase.app"})
 
 logging.basicConfig(format='[{asctime}]{levelname}:{message}',
                     datefmt='%Y-%m-%d %H:%M:%S',
@@ -14,10 +16,6 @@ logging.basicConfig(format='[{asctime}]{levelname}:{message}',
                     style='{')
 
 app = NDNApp()
-
-cred = credentials.Certificate("medical-record-7557a-firebase-adminsdk-bnaep-ee0229ec92.json")
-firebase_admin.initialize_app(cred, {'databaseURL': "https://medical-record-7557a-default-rtdb.asia-southeast1.firebasedatabase.app"})
-
 
 @app.route('/data/getuser')
 def on_interest(name: FormalName, param: InterestParam, ap: Optional[BinaryStr]):
