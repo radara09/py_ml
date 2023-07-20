@@ -75,23 +75,45 @@ def on_interest(name: FormalName, param: InterestParam, ap: Optional[BinaryStr])
     print(f'Content: (size: {len(content)})')
     print('')
 
+
+@app.route('/data/adduser', methods=["POST"])
+def on_data(name: FormalName, param: InterestParam, ap: Optional[BinaryStr]):
+    data_to_save = str(bytes(ap)).split('b\'')[1].split('\'')[0]
+    print(f'>> I: {Name.to_str(name)}, {param}')
+
+    # Mendapatkan data dari body permintaan
+    # data = request.get_json()
+
+    data_dict = json.loads(data_to_save)
+    data = json.dumps(data_dict)
+
+    # Simpan data ke Firebase Realtime Database
+    records_ref = db.reference('records')  # Ganti 'records' sesuai dengan nama folder Anda di database
+    new_record_ref = records_ref.push(data)
+
+    response_data = {"record_id": new_record_ref.key}
+    print(response_data)
+    content = response_data.encode()
+    app.put_data(name, content=content, freshness_period=5000)
+    print(f'<< D: {Name.to_str(name)}')
+    print(MetaInfo(freshness_period=10000))
+    print(f'Content: (size: {len(content)})')
+    print('')
+
+    # # Lakukan pemrosesan data di sini (misalnya menyimpan data ke database atau melakukan tindakan lainnya)
+    # print(data)
+    # return jsonify({"message": "Data berhasil diterima di server backend Python."})
+
 if __name__ == '__main__':
     app.run_forever()
 
-# config = {
-#     'apiKey': "AIzaSyBfwJoBt2kT0iOMjlDBw_heFaqjwjlp5ZU",
-#     'authDomain': "medical-record-7557a.firebaseapp.com",
-#     'databaseURL': "https://medical-record-7557a-default-rtdb.asia-southeast1.firebasedatabase.app",
-#     'projectId': "medical-record-7557a",
-#     'storageBucket': "medical-record-7557a.appspot.com",
-#     'messagingSenderId': "973084416066",
-#     'appId': "1:973084416066:web:50c8c2831db284a7e835db",
-#     'measurementId': "G-MZ9NN8VEQZ"
-# }
+# id		name
+# nopasien	noPasien
+# nama		nama
+# umur		umur
+# bmi		bmi
+# heartrate	heartrate
+# height		height
+# weight		weight
 
-# cred = credentials.Certificate("medical-record-7557a-firebase-adminsdk-bnaep-ee0229ec92.json")
-# firebase_admin.initialize_app(cred)
-
-
-# firebase = pyrebase.initialize_app(config)
-# db = firebase.database()
+{"noPasien":"75", "nama":"Radara", "umur": "35", "bmi": "25", "heartrate": "60", "height": "158", "weight": "60"}
