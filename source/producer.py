@@ -93,7 +93,7 @@ def on_data(name: FormalName, param: InterestParam, ap: Optional[BinaryStr]):
 
     response_data = {"record_id": new_record_ref.key}
     print(response_data)
-    content = response_data.encode()
+    content = str(response_data).encode()
     app.put_data(name, content=content, freshness_period=5000)
     print(f'<< D: {Name.to_str(name)}')
     print(MetaInfo(freshness_period=10000))
