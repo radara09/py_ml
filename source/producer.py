@@ -76,7 +76,7 @@ def on_interest(name: FormalName, param: InterestParam, ap: Optional[BinaryStr])
     print('')
 
 
-@app.route('/data/adduser', methods=["POST"])
+@app.route('/data/adduser')
 def on_data(name: FormalName, param: InterestParam, ap: Optional[BinaryStr]):
     data_to_save = str(bytes(ap)).split('b\'')[1].split('\'')[0]
     print(f'>> I: {Name.to_str(name)}, {param}')
