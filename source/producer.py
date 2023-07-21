@@ -24,27 +24,22 @@ def on_interest(name: FormalName, param: InterestParam, ap: Optional[BinaryStr])
     
     # Get a reference to the root of the database
     root_ref = db.reference()
-
     # Get a reference to the "records" folder in the database
     records_ref = root_ref.child("records")
-
     # Read data from the "records" folder
     data = records_ref.get()
-
 # Print the data or perform further processing.
 # print(data)
-
 # Check if data is not None (data exists)
     if data:
     # Input nama yang ingin Anda cari dari terminal
         # nama_to_search = input("Masukkan nama yang ingin Anda cari: ")
-
     # List untuk menyimpan data yang sesuai dengan nama yang dicari
         matching_records = []
-
         for record_id, record_data in data.items():
         # Access and check the "nama" parameter
             nama = record_data.get("nama")
+            print(nama)
             if nama and nama == nama_to_search:
              matching_records.append({
                 #   "ID": record_id,
@@ -98,6 +93,7 @@ def on_data(name: FormalName, param: InterestParam, ap: Optional[BinaryStr]):
     print(f'<< D: {Name.to_str(name)}')
     print(MetaInfo(freshness_period=10000))
     print(f'Content: (size: {len(content)})')
+    response_data = {"record_id": new_record_ref.key}
     print('')
 
     # # Lakukan pemrosesan data di sini (misalnya menyimpan data ke database atau melakukan tindakan lainnya)
