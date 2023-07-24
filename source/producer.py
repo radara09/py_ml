@@ -35,7 +35,7 @@ def on_interest(name: FormalName, param: InterestParam, ap: Optional[BinaryStr])
         matching_records = []
         for record_id, record_data in data.items():
         # Access and check the "nama" parameter
-            print(record_data)
+            #print(record_data)
             nama = record_data.get("nama")
             if nama and nama == nama_to_search:
              matching_records.append({
