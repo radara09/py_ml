@@ -1,4 +1,3 @@
-# import pyrebase
 import json
 import firebase_admin
 from firebase_admin import credentials, db
@@ -28,8 +27,6 @@ def on_interest(name: FormalName, param: InterestParam, ap: Optional[BinaryStr])
     records_ref = root_ref.child("records")
     # Read data from the "records" folder
     data = records_ref.get()
-# Print the data or perform further processing.
-# print(data)
 # Check if data is not None (data exists)
     if data:
     # Input nama yang ingin Anda cari dari terminal
@@ -38,8 +35,8 @@ def on_interest(name: FormalName, param: InterestParam, ap: Optional[BinaryStr])
         matching_records = []
         for record_id, record_data in data.items():
         # Access and check the "nama" parameter
+            print(record_data)
             nama = record_data.get("nama")
-            print(nama)
             if nama and nama == nama_to_search:
              matching_records.append({
                 #   "ID": record_id,
@@ -58,12 +55,13 @@ def on_interest(name: FormalName, param: InterestParam, ap: Optional[BinaryStr])
             # Menggunakan json.dumps untuk mengubah data menjadi string format JSON
                 record_str = json.dumps(record)
                 print(record_str)
+                data_dict = json.loads (record_str)
         else:
             print(f"Tidak ditemukan data dengan nama '{nama_to_search}'.")
     else:
         print("No data available in the 'records' folder.")
 
-    content = record_str.encode()
+    content = data_dict.encode()
     app.put_data(name, content=content, freshness_period=10000)
     print(f'<< D: {Name.to_str(name)}')
     print(MetaInfo(freshness_period=10000))
@@ -75,7 +73,6 @@ def on_interest(name: FormalName, param: InterestParam, ap: Optional[BinaryStr])
 def on_data(name: FormalName, param: InterestParam, ap: Optional[BinaryStr]):
     data_to_save = str(bytes(ap)).split('b\'')[1].split('\'')[0]
     print(f'>> I: {Name.to_str(name)}, {param}')
-
     # Mendapatkan data dari body permintaan
     # data = request.get_json()
 
@@ -85,7 +82,6 @@ def on_data(name: FormalName, param: InterestParam, ap: Optional[BinaryStr]):
     # Simpan data ke Firebase Realtime Database
     records_ref = db.reference('records')  # Ganti 'records' sesuai dengan nama folder Anda di database
     new_record_ref = records_ref.push(data)
-
     response_data = {"record_id": new_record_ref.key}
     print(response_data)
     content = str(response_data).encode()
@@ -112,4 +108,4 @@ if __name__ == '__main__':
 # height		height
 # weight		weight
 
-{"noPasien":"75", "nama":"Radara", "umur": "35", "bmi": "25", "heartrate": "60", "height": "158", "weight": "60"}
+#{"noPasien":"75", "nama":"Radara", "umur": "35", "bmi": "25", "heartrate": "60", "height": "158", "weight": "60"}
