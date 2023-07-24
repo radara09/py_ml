@@ -55,13 +55,12 @@ def on_interest(name: FormalName, param: InterestParam, ap: Optional[BinaryStr])
             # Menggunakan json.dumps untuk mengubah data menjadi string format JSON
                 record_str = json.dumps(record)
                 print(record_str)
-                data_dict = json.loads (record_str)
         else:
             print(f"Tidak ditemukan data dengan nama '{nama_to_search}'.")
     else:
         print("No data available in the 'records' folder.")
-
-    content = data_dict.encode()
+    
+    content = record_str.encode()
     app.put_data(name, content=content, freshness_period=10000)
     print(f'<< D: {Name.to_str(name)}')
     print(MetaInfo(freshness_period=10000))
