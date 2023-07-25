@@ -72,15 +72,16 @@ def on_interest(name: FormalName, param: InterestParam, ap: Optional[BinaryStr])
 def on_data(name: FormalName, param: InterestParam, ap: Optional[BinaryStr]):
     data_to_save = str(bytes(ap)).split('b\'')[1].split('\'')[0]
     print(f'>> I: {Name.to_str(name)}, {param}')
+    print(data_to_save)
     # Mendapatkan data dari body permintaan
     # data = request.get_json()
 
     data_dict = json.loads(data_to_save)
-    data = json.dumps(data_dict)
+    #data = json.dumps(data_dict)
 
     # Simpan data ke Firebase Realtime Database
     records_ref = db.reference('records')  # Ganti 'records' sesuai dengan nama folder Anda di database
-    new_record_ref = records_ref.push(data)
+    new_record_ref = records_ref.push(data_dict)
     response_data = {"record_id": new_record_ref.key}
     print(response_data)
     content = str(response_data).encode()
