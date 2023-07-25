@@ -96,6 +96,55 @@ def on_data(name: FormalName, param: InterestParam, ap: Optional[BinaryStr]):
     # print(data)
     # return jsonify({"message": "Data berhasil diterima di server backend Python."})
 
+
+@app.route('/data/alluser')
+def on_interest(name: FormalName, param: InterestParam, ap: Optional[BinaryStr]):
+    all_data = str(bytes(ap)).split('b\'')[1].split('\'')[0]
+    print(f'>> I: {Name.to_str(name)}, {param}')
+    
+    # Get a reference to the root of the database
+    root_ref = db.reference()
+    # Get a reference to the "records" folder in the database
+    records_ref = root_ref.child("records")
+    # Read data from the "records" folder
+    data = records_ref.get()
+# Check if data is not None (data exists)
+    if data:
+    # Input nama yang ingin Anda cari dari terminal
+        # nama_to_search = input("Masukkan nama yang ingin Anda cari: ")
+    # List untuk menyimpan data yang sesuai dengan nama yang dicari
+        matching_records = []
+        for record_id, record_data in data.items():
+        # Access and check the "nama" parameter
+            #print(record_data)
+            nama = record_data.get("nama")
+            if nama and nama == all_data:
+             matching_records.append({
+                #   "ID": record_id,
+                  "Nama": record_data.get("nama"),
+                  "Umur": record_data.get("umur"),
+                  "noPasien": record_data.get("sex"),
+                })
+
+    # Print or process the matching records
+        if matching_records:
+         print(f"Data yang terkait dengan nama '{all_data}':")
+         for record in matching_records:
+            # Menggunakan json.dumps untuk mengubah data menjadi string format JSON
+                record_str = json.dumps(record)
+                print(record_str)
+        else:
+            print(f"Tidak ditemukan data '{all_data}'.")
+    else:
+        print("No data available in the 'records' folder.")
+    
+    content = record_str.encode()
+    app.put_data(name, content=content, freshness_period=10000)
+    print(f'<< D: {Name.to_str(name)}')
+    print(MetaInfo(freshness_period=10000))
+    print(f'Content: (size: {len(content)})')
+    print('')
+
 if __name__ == '__main__':
     app.run_forever()
 
