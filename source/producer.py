@@ -113,27 +113,32 @@ def on_interest(name: FormalName, param: InterestParam, ap: Optional[BinaryStr])
     # Input nama yang ingin Anda cari dari terminal
         # nama_to_search = input("Masukkan nama yang ingin Anda cari: ")
     # List untuk menyimpan data yang sesuai dengan nama yang dicari
-        matching_records = []
+        matching_records = {}
         for record_id, record_data in data.items():
         # Access and check the "nama" parameter
             #print(record_data)
             nama = record_data.get("nama")
             print(nama)
             if nama and nama != all_data:
-             matching_records.append({
-                #   "ID": record_id,
-                  "Nama": record_data.get("nama"),
-                  "Umur": record_data.get("umur"),
-                  "noPasien": record_data.get("sex"),
-                })
+            #  matching_records.append({
+            #     #   "ID": record_id,
+            #       "Nama": record_data.get("nama"),
+            #       "Umur": record_data.get("umur"),
+            #       "noPasien": record_data.get("sex"),
+            #     })
+                matching_records[record_id] = {
+                    "Nama": record_data.get("nama"),
+                    "Umur": record_data.get("umur"),
+                    "noPasien": record_data.get("sex"),
+                }
 
     # Print or process the matching records
         if matching_records:
          print(f"Data yang terkait dengan nama '{all_data}':")
-         for record in matching_records:
+         record_str = json.dumps(matching_records)
+         print(record_str)
+        
             # Menggunakan json.dumps untuk mengubah data menjadi string format JSON
-                record_str = json.dumps(record)
-                print(record_str)
         else:
             print(f"Tidak ditemukan data '{all_data}'.")
     else:
