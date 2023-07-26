@@ -114,6 +114,7 @@ def on_interest(name: FormalName, param: InterestParam, ap: Optional[BinaryStr])
         # nama_to_search = input("Masukkan nama yang ingin Anda cari: ")
     # List untuk menyimpan data yang sesuai dengan nama yang dicari
         matching_records = {}
+        i = 1
         for record_id, record_data in data.items():
         # Access and check the "nama" parameter
             #print(record_data)
@@ -126,11 +127,12 @@ def on_interest(name: FormalName, param: InterestParam, ap: Optional[BinaryStr])
             #       "Umur": record_data.get("umur"),
             #       "noPasien": record_data.get("sex"),
             #     })
-                matching_records[record_id] = {
+                matching_records[i] = {
                     "Nama": record_data.get("nama"),
                     "Umur": record_data.get("umur"),
                     "noPasien": record_data.get("noPasien"),
                 }
+            i = i + 1
 
     # Print or process the matching records
         if matching_records:
