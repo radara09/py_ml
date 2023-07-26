@@ -120,17 +120,16 @@ def on_interest(name: FormalName, param: InterestParam, ap: Optional[BinaryStr])
             nama = record_data.get("nama")
             print(nama)
             if nama and nama != all_data:
-             # Ekstrak parameter yang spesifik dan simpan dalam sebuah dictionary baru
-             matching_records[record_id] = {
-                #  "ID": record_id,
+             matching_records.append({
+                #   "ID": record_id,
                   "Nama": record_data.get("nama"),
                   "Umur": record_data.get("umur"),
-                  "noPasien": record_data.get("noPasien"),
-            }
+                  "noPasien": record_data.get("sex"),
+                })
 
     # Print or process the matching records
         if matching_records:
-         print(f"Data yang terkait dengan nama '{all_data}': {matching_records}")
+         print(f"Data yang terkait dengan nama '{all_data}':")
          for record in matching_records:
             # Menggunakan json.dumps untuk mengubah data menjadi string format JSON
                 record_str = json.dumps(record)
