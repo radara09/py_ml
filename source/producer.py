@@ -129,7 +129,7 @@ def on_interest(name: FormalName, param: InterestParam, ap: Optional[BinaryStr])
                 matching_records[record_id] = {
                     "Nama": record_data.get("nama"),
                     "Umur": record_data.get("umur"),
-                    "noPasien": record_data.get("sex"),
+                    "noPasien": record_data.get("noPasien"),
                 }
 
     # Print or process the matching records
