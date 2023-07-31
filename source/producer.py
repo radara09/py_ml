@@ -19,6 +19,7 @@ app = NDNApp()
 @app.route('/data/getuser')
 def on_interest(name: FormalName, param: InterestParam, ap: Optional[BinaryStr]):
     nama_to_search = str(bytes(ap)).split('b\'')[1].split('\'')[0]
+    print(nama_to_search)
     print(f'>> I: {Name.to_str(name)}, {param}')
     
     # Get a reference to the root of the database
